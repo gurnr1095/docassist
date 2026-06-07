@@ -1,0 +1,126 @@
+.bubble-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+.bubble-wrapper.user { flex-direction: row-reverse; }
+
+.bubble-avatar { flex-shrink: 0; }
+
+.avatar-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  background: var(--gradient-main);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.03em;
+}
+
+.avatar-ai {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 50%;
+  color: var(--accent-purple);
+}
+
+.bubble-content {
+  max-width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bubble-user {
+  background: var(--gradient-main);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 18px 4px 18px 18px;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+}
+
+.bubble-ai {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 14px 18px;
+  border-radius: 4px 18px 18px 18px;
+  backdrop-filter: blur(12px);
+}
+
+.bubble-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Markdown styles inside AI bubble */
+.bubble-markdown {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.bubble-markdown p { margin-bottom: 8px; }
+.bubble-markdown p:last-child { margin-bottom: 0; }
+
+.bubble-markdown h1, .bubble-markdown h2, .bubble-markdown h3 {
+  font-weight: 700;
+  margin: 12px 0 6px;
+  color: var(--text-primary);
+}
+
+.bubble-markdown ul, .bubble-markdown ol {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.bubble-markdown li { margin-bottom: 4px; }
+
+.bubble-markdown code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.bubble-markdown pre {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.bubble-markdown pre code {
+  background: none;
+  padding: 0;
+  color: #e2e8f0;
+}
+
+.bubble-markdown strong { color: #a78bfa; font-weight: 600; }
+.bubble-markdown em { color: var(--text-secondary); }
+
+.bubble-markdown blockquote {
+  border-left: 3px solid var(--accent-purple);
+  padding-left: 12px;
+  color: var(--text-secondary);
+  margin: 8px 0;
+}
+
+.bubble-time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  align-self: flex-end;
+}
