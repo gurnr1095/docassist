@@ -20,9 +20,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--glass-border);
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .chat-header-info { display: flex; align-items: center; gap: 12px; }
@@ -49,12 +50,31 @@
 
 .chat-doc-meta { font-size: 0.75rem; color: var(--text-muted); }
 
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.clear-btn {
+  font-size: 0.8rem !important;
+  padding: 6px 10px !important;
+  color: var(--text-muted) !important;
+}
+
+.clear-btn:hover {
+  color: var(--error) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
 .chat-status {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 0.78rem;
   color: var(--success);
+  white-space: nowrap;
 }
 
 .status-dot {
@@ -177,9 +197,9 @@
 
 .input-wrapper {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   transition: var(--transition);
 }
@@ -211,7 +231,22 @@
   flex-shrink: 0;
 }
 
-.input-hint { font-size: 0.72rem; color: var(--text-muted); text-align: center; }
+.input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-hint { font-size: 0.72rem; color: var(--text-muted); }
+
+.char-counter {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  transition: color 0.2s;
+}
+
+.char-counter.warn { color: var(--warning); }
 
 /* ── Sources Panel ── */
 .sources-panel {
@@ -243,3 +278,11 @@
 .sources-subtitle { font-size: 0.78rem; color: var(--text-muted); }
 
 .sources-list { display: flex; flex-direction: column; gap: 8px; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .chat-layout { flex-direction: column; }
+  .sources-panel { width: 100%; max-height: 320px; overflow-y: auto; }
+  .chat-doc-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bubble-content { max-width: 90%; }
+}

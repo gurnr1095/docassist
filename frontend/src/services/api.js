@@ -1,53 +1,51 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
-  timeout: 120000, // 2 min for LLM calls
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? '/api',
+  timeout: 120000,
 })
 
-/**
- * Upload a PDF file and get back document metadata.
- * @param {File} file
- * @param {Function} onProgress - (percent: number) => void
- */
+// Normalise every error so callers use err.userMessage instead of digging
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const detail =
+      error.response?.data?.detail ??
+      error.message ??
+      'An unexpected error occurred'
+    if (import.meta.env.DEV) {
+      console.error('[API]', error.config?.url, error.response?.status, detail)
+    }
+    error.userMessage = detail
+    return Promise.reject(error)
+  }
+)
+
 export async function uploadPDF(file, onProgress) {
   const formData = new FormData()
   formData.append('file', file)
-
   const response = await api.post('/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (e) => {
       if (onProgress && e.total) {
         onProgress(Math.round((e.loaded * 100) / e.total))
       }
-    }
+    },
   })
   return response.data
 }
 
-/**
- * Ask a question about an uploaded document.
- * @param {string} docId
- * @param {string} question
- */
 export async function queryDocument(docId, question) {
   const response = await api.post('/query', { doc_id: docId, question })
   return response.data
 }
 
-/**
- * Fetch all uploaded documents.
- */
 export async function listDocuments() {
-  const response = await api.get('/documents')
+  const response = await api.get('/documents', { timeout: 15000 })
   return response.data.documents
 }
 
-/**
- * Delete a document by ID.
- * @param {string} docId
- */
 export async function deleteDocument(docId) {
-  const response = await api.delete(`/documents/${docId}`)
+  const response = await api.delete(`/documents/${docId}`, { timeout: 15000 })
   return response.data
 }

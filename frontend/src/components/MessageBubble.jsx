@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import './MessageBubble.css'
 
 export default function MessageBubble({ message }) {
   const isUser = message.role === 'user'
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.content).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   return (
     <div className={`bubble-wrapper ${isUser ? 'user' : 'assistant'} animate-fadeInUp`}>
@@ -29,6 +37,23 @@ export default function MessageBubble({ message }) {
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {message.content}
             </ReactMarkdown>
+            <button
+              className={`copy-btn ${copied ? 'copied' : ''}`}
+              onClick={handleCopy}
+              aria-label={copied ? 'Copied!' : 'Copy response to clipboard'}
+              title={copied ? 'Copied!' : 'Copy'}
+            >
+              {copied ? (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              )}
+            </button>
           </div>
         )}
         <span className="bubble-time">{message.time}</span>

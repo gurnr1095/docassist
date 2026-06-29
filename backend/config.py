@@ -1,16 +1,49 @@
-import os
-from dotenv import load_dotenv
+from pathlib import Path
+from pydantic import field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-load_dotenv()
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "your_openrouter_api_key_here")
-OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
-LLM_MODEL = os.getenv("LLM_MODEL", "meta-llama/llama-3.3-8b-instruct")
-CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
-MAX_CHUNK_SIZE = int(os.getenv("MAX_CHUNK_SIZE", 800))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 100))
-TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", 5))
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
-UPLOAD_DIR = "./uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(CHROMA_PERSIST_DIR, exist_ok=True)
+    # Mistral LLM
+    mistral_api_key: str = ""
+    mistral_base_url: str = "https://api.mistral.ai/v1"
+    llm_model: str = "mistral-small-latest"
+
+    # ChromaDB
+    chroma_persist_dir: str = "./chroma_db"
+
+    # Chunking
+    max_chunk_size: int = 800
+    chunk_overlap: int = 100
+    top_k_results: int = 5
+
+    # Upload
+    upload_dir: str = "./uploads"
+    max_upload_bytes: int = 52_428_800  # 50 MB
+
+    # Server
+    allowed_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    log_level: str = "INFO"
+
+    @field_validator("allowed_origins", mode="before")
+    @classmethod
+    def parse_origins(cls, v: object) -> object:
+        # Accept a comma-separated string from env vars
+        if isinstance(v, str):
+            return [o.strip() for o in v.split(",") if o.strip()]
+        return v
+
+    def validate_on_startup(self) -> None:
+        if not self.mistral_api_key:
+            raise ValueError("MISTRAL_API_KEY must be set in your .env file")
+        Path(self.upload_dir).mkdir(parents=True, exist_ok=True)
+        Path(self.chroma_persist_dir).mkdir(parents=True, exist_ok=True)
+
+
+settings = Settings()

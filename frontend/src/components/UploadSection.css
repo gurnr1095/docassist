@@ -1,21 +1,22 @@
 .upload-section { width: 100%; }
 
-/* Drop Zone */
+/* ── Drop Zone ── */
 .drop-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 48px 32px;
+  gap: 10px;
+  padding: 44px 32px;
   border: 2px dashed var(--glass-border);
   border-radius: var(--radius-xl);
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
-  min-height: 280px;
+  min-height: 260px;
   position: relative;
   overflow: hidden;
+  background: var(--glass-bg);
 }
 
 .drop-zone::before {
@@ -32,7 +33,7 @@
 .drop-zone:hover, .drop-zone.dragging {
   border-color: var(--accent-purple);
   transform: scale(1.01);
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.18);
 }
 
 .drop-icon {
@@ -40,10 +41,11 @@
   animation: float 3s ease-in-out infinite;
   position: relative;
   z-index: 1;
+  opacity: 0.9;
 }
 
 .drop-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-primary);
   position: relative;
@@ -51,14 +53,14 @@
 }
 
 .drop-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   position: relative;
   z-index: 1;
 }
 
 .drop-hint {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   background: var(--glass-bg);
   padding: 4px 12px;
@@ -68,44 +70,152 @@
   z-index: 1;
 }
 
-/* Progress */
-.upload-progress {
+/* ── File Preview ── */
+.file-preview {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 40px 32px;
+  gap: 16px;
+  padding: 36px 28px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.07) 0%, rgba(59,130,246,0.04) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: var(--radius-xl);
   text-align: center;
-  min-height: 280px;
+  min-height: 260px;
   justify-content: center;
 }
 
-.progress-icon { animation: pulse-glow 2s ease-in-out infinite; }
+.preview-icon {
+  width: 64px; height: 64px;
+  background: var(--gradient-card);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent-purple);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+}
 
-.progress-label {
-  font-size: 1.1rem;
+.preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 300px;
+}
+
+.preview-name {
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280px;
+}
+
+.preview-size {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.preview-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.preview-upload-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Progress ── */
+.upload-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 36px 28px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  min-height: 260px;
+  justify-content: center;
+}
+
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.progress-step.active {
+  color: var(--accent-purple);
+}
+
+.progress-step.done {
+  color: var(--success);
+}
+
+.step-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.progress-step.active .step-dot {
+  animation: pulse-glow 1.5s infinite;
+  box-shadow: 0 0 6px var(--accent-purple);
+}
+
+.progress-step-line {
+  height: 1px;
+  width: 24px;
+  background: var(--glass-border);
+  flex-shrink: 0;
 }
 
 .progress-bar-track {
   width: 100%;
   height: 6px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
   border-radius: 99px;
   overflow: hidden;
+}
+
+[data-theme="light"] .progress-bar-track {
+  background: rgba(139, 92, 246, 0.1);
 }
 
 .progress-bar-fill {
   height: 100%;
   background: var(--gradient-main);
   border-radius: 99px;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+  transition: width 0.4s ease;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+}
+
+.progress-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .progress-pct {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   background: var(--gradient-main);
   -webkit-background-clip: text;
@@ -114,20 +224,25 @@
 }
 
 .progress-note {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
+  text-align: right;
+  max-width: 200px;
 }
 
-/* Success */
+/* ── Success ── */
 .upload-success {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 36px 32px;
+  gap: 14px;
+  padding: 36px 28px;
   text-align: center;
-  background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(20,184,166,0.05) 100%);
-  border-color: rgba(16,185,129,0.3);
+  background: linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(20,184,166,0.04) 100%);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: var(--radius-xl);
+  min-height: 260px;
+  justify-content: center;
 }
 
 .success-icon {
@@ -135,12 +250,12 @@
   background: linear-gradient(135deg, #10b981, #14b8a6);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; color: white; font-weight: 700;
-  box-shadow: 0 0 30px rgba(16,185,129,0.4);
+  color: white;
+  box-shadow: 0 0 28px rgba(16,185,129,0.35);
 }
 
 .success-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   max-width: 300px;
@@ -153,16 +268,16 @@
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 16px 32px;
+  padding: 14px 28px;
   background: var(--glass-bg);
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
 }
 
-.stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.stat { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 
 .stat-value {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 800;
   background: var(--gradient-main);
   -webkit-background-clip: text;
@@ -170,21 +285,29 @@
   background-clip: text;
 }
 
-.stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.stat-divider { width: 1px; height: 40px; background: var(--glass-border); }
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
 
-.success-msg { font-size: 0.85rem; color: var(--text-secondary); max-width: 320px; }
+.stat-divider { width: 1px; height: 36px; background: var(--glass-border); }
+.success-msg { font-size: 0.82rem; color: var(--text-secondary); max-width: 300px; }
 
-/* Error */
+/* ── Error ── */
 .upload-error {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 40px 32px;
+  gap: 14px;
+  padding: 40px 28px;
   text-align: center;
-  background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, transparent 100%);
-  border-color: rgba(239,68,68,0.3);
+  background: linear-gradient(135deg, rgba(239,68,68,0.07) 0%, transparent 100%);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: var(--radius-xl);
+  min-height: 260px;
+  justify-content: center;
 }
 
 .error-icon {
@@ -192,7 +315,10 @@
   background: linear-gradient(135deg, #ef4444, #f97316);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; color: white; font-weight: 700;
+  color: white;
+  box-shadow: 0 0 24px rgba(239,68,68,0.3);
 }
 
-.error-msg { color: #fca5a5; font-size: 0.95rem; max-width: 300px; }
+.error-msg { color: #fca5a5; font-size: 0.92rem; max-width: 300px; line-height: 1.6; }
+
+[data-theme="light"] .error-msg { color: #dc2626; }

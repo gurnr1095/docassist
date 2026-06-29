@@ -1,3 +1,4 @@
+
 # 🤖 DocAssist – RAG-Based PDF Q&A
 
 > AI-powered document assistant using Retrieval-Augmented Generation. Upload any PDF and get instant, accurate answers grounded in your document — with source citations and page references.

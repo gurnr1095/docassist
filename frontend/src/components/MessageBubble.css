@@ -124,3 +124,31 @@
   margin-top: 4px;
   align-self: flex-end;
 }
+
+/* Copy button — visible on hover */
+.bubble-markdown { position: relative; }
+
+.copy-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.bubble-wrapper:hover .copy-btn,
+.bubble-wrapper:focus-within .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn:hover { color: var(--accent-purple); border-color: var(--accent-purple); }
+.copy-btn.copied { color: var(--success); border-color: var(--success); opacity: 1; }
